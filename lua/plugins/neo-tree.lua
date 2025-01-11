@@ -8,12 +8,13 @@ return {
   },
   config = function()
     require("neo-tree").setup({
-      -- close_if_last_window = true,
       popup_border_style = "rounded",
       enable_git_status = true,
       buffers = {
-        group_empty_dirs = true, -- when true, empty folders will be grouped together
-        follow_current_file = true,     -- This will find and focus the file in the active buffer every
+        group_empty_dirs = true,
+        follow_current_file = {
+          enabled = true,  -- Changed from boolean to table format
+        },
         show_unloaded = true,
         window = {
           mappings = {
@@ -28,23 +29,16 @@ return {
           visible = true,
           hide_dotfiles = false,
           hide_gitignored = false,
-          hide_hidden = false, -- only works on Windows for hidden files/directories
-          hide_by_name = {
-            -- "node_modules"
-          },
-          hide_by_pattern = { -- uses glob style patterns
-            -- "*.meta"
-          },
-          never_show = { -- remains hidden even if visible is toggled to true
-            -- ".DS_Store",
-            -- "thumbs.db"
-          },
+          hide_hidden = false,
+          hide_by_name = {},
+          hide_by_pattern = {},
+          never_show = {},
         },
-        -- time the current file is changed while the tree is open.
-        follow_current_file = true,     -- This will find and focus the file in the active buffer every
-        group_empty_dirs = false,       -- when true, empty folders will be grouped together
-        use_libuv_file_watcher = false, -- This will use the OS level file watchers to detect changes
-        -- instead of relying on nvim autocmd events.
+        follow_current_file = {
+          enabled = true,  -- Changed from boolean to table format
+        },
+        group_empty_dirs = false,
+        use_libuv_file_watcher = false,
       },
       git_status = {
         window = {
@@ -61,11 +55,7 @@ return {
         },
       },
     })
-
     vim.keymap.set("n", "<C-e>", ":Neotree toggle<CR>", {})
-    -- vim.keymap.set("n", "<C-m>", ":Neotree filesystem reveal<CR>", {})
     vim.keymap.set("n", "<leader>bf", ":Neotree buffers reveal float<CR>", {})
-
-    -- vim.keymap.set("n", "<leader>?", ":Neotree toggle<CR>", {})
   end,
 }

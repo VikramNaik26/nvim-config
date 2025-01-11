@@ -87,11 +87,16 @@ return {
       vim.keymap.set("n", "<leader>gc", builtin.git_commits, { desc = "Search Git Commits" })
       vim.keymap.set("n", "<leader>gb", builtin.git_bcommits, { desc = "Search Git Commits for Buffer" })
       vim.keymap.set("n", "<leader>/", function()
-        -- You can pass additional configuration to telescope to change theme, layout, etc.
         require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
           winblend = 10,
           previewer = false,
-          -- layout_config = { width = 0.8 },
+          layout_strategy = "vertical", -- Set layout strategy to "vertical"
+          layout_config = {
+            prompt_position = "top", -- Move prompt to the top
+            width = 0.4,          -- Set width of the Telescope window
+            height = 0.3,         -- Set height of the Telescope window
+            anchor = "NE",        -- Anchor the window to the top-right corner
+          },
         }))
       end, { desc = "[/] Fuzzily search in current buffer" })
     end,

@@ -18,15 +18,6 @@ return {
           vim.lsp.buf.execute_command(parans)
         end
 
-        lspconfig.tsserver.setup({
-          capabilities = capabilities,
-          command = {
-            OrganizeImports = {
-              organize_imports,
-              description = "Organize Imports",
-            },
-          },
-        })
         lspconfig.html.setup({
           capabilities = capabilities,
           -- filetypes = { "html", "typescriptreact", "javascriptreact" },
@@ -39,6 +30,24 @@ return {
         -- })
         lspconfig.tailwindcss.setup({
           capabilities = capabilities,
+        })
+
+        lspconfig.gopls.setup({
+          capabilities = capabilities,
+          cmd = { "gopls" },
+          filetypes = { "go", "gomod", "gowork", "gotmpl", "gotexttmpl" },
+          root_dir = lspconfig.util.root_pattern("go.work", "go.mod", ".git"),
+          settings = {
+            gopls = {
+              completeUnimported = true,
+              semanticTokens = true,
+              analyses = {
+                unusedparams = true, -- Enable unused parameter diagnostics
+                shadow = true,       -- Detect shadowed variables
+              },
+              staticcheck = true,    -- Enable more static analysis checks
+            },
+          },
         })
 
         -- lspconfig.intelephense.setup({
@@ -71,7 +80,6 @@ return {
           },
           capabilities = capabilities,
         })
-
       end,
     }, -- Required
     {  -- Optional
@@ -153,7 +161,7 @@ return {
     require("mason").setup({})
     require("mason-lspconfig").setup({
       ensure_installed = {
-        "tsserver",
+        "ts_ls",
         "eslint",
         "rust_analyzer",
         "kotlin_language_server",
@@ -166,6 +174,7 @@ return {
         "tflint",
         "pylsp",
         "dockerls",
+        "gopls",
         -- "astro",
         "bashls",
         "marksman",
